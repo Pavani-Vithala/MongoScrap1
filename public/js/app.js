@@ -5,11 +5,8 @@ $("#Scrap").on("click",function(){
   console.log("Hello there:");
   $.getJSON("/articles", function(data) {
     console.log("Entered getJSON function");
-    // For each one
-    for (var i = 0; i < data.length; i++) {
-      // Display the apropos information on the page
-      $("#Articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-    }
+    location.reload();
+    
   });
 
 

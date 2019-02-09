@@ -1,19 +1,47 @@
-$( document ).ready(function() {
+$(document).ready(function () {
 
-$("#Scrap").on("click",function(){
+  $("#Scrap").on("click", function () {
 
-  console.log("Hello there:");
-  $.getJSON("/articles", function(data) {
-    console.log("Entered getJSON function");
-    location.reload();
-    
+    console.log("Hello there:");
+    $.getJSON("/Scrap", function (data) {
+
+      console.log("Entered getJSON function");
+      console.log(data);
+
+      for (var i = 0; i < data.length; i++) {
+        // Display the apropos information on the page
+        var site = "https://www.nytimes.com"
+        var articlediv = $("<div>");
+        var save = $("<button>");
+        save.addClass("btn btn-success save");
+        save.attr("padding", "20px");
+        save.text("SAVE ARTICLE");
+        save.css("margin", "20px");
+        //articlediv.attr("id", i);
+        $("#" + i).addClass("articles");
+        articlediv.css("background-color", "beige");
+        articlediv.css("margin", "10px");
+        articlediv.css("padding", "10px");
+        // save.css("float","right");
+        $(".background-image").append(articlediv);
+
+        articlediv.html('<a href =' + site + data[i].link + '><h4>' + data[i].title + data[i].summary + '</h4></a>');
+        articlediv.append(save);
+        articlediv.css("color", "black");
+        save.attr("id", i);
+
+      }
+
+    });
+
+
   });
-
-
-});
-
-// Grab the articles as a json
-
+  ///to work from here
+  $(".btn btn-success save").on("click", function () {
+    console.log("Entered click eve for Save button");
+    var id = this.id;
+    //console.log("The id of the button clicked is" + id);
+  });
 });
 
 // Whenever someone clicks a p tag
@@ -78,3 +106,4 @@ $(document).on("click", "#savenote", function() {
   $("#titleinput").val("");
   $("#bodyinput").val("");
 });*/
+

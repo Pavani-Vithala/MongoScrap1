@@ -9,7 +9,7 @@ var ArticleSchema = new Schema({
   // `title` is required and of type String
   title: {
     type: String,
-    required: true
+   // required: true
   },
   // `link` is required and of type String
   link: {
@@ -20,7 +20,7 @@ var ArticleSchema = new Schema({
 
   summary: {
     type: String,
-    required: true
+    //required: true
   },
   SaveFlag: {
     type: Boolean,

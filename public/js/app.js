@@ -3,7 +3,7 @@ $(document).ready(function () {
   $("#Scrap").on("click", function () {
 
     console.log("Hello there:");
-    $.getJSON("/Scrap", function (data) {
+    $.get("/Scrap", function (data) {
 
       console.log("Entered getJSON function");
       console.log(data);
@@ -13,22 +13,21 @@ $(document).ready(function () {
         var site = "https://www.nytimes.com"
         var articlediv = $("<div>");
         var save = $("<button>");
-        save.addClass("btn btn-success save");
+        save.addClass("btn btn-success");
         save.attr("padding", "20px");
         save.text("SAVE ARTICLE");
         save.css("margin", "20px");
-        //articlediv.attr("id", i);
+        articlediv.attr("id", i);
         $("#" + i).addClass("articles");
         articlediv.css("background-color", "beige");
         articlediv.css("margin", "10px");
         articlediv.css("padding", "10px");
         // save.css("float","right");
         $(".background-image").append(articlediv);
-
         articlediv.html('<a href =' + site + data[i].link + '><h4>' + data[i].title + data[i].summary + '</h4></a>');
         articlediv.append(save);
         articlediv.css("color", "black");
-        save.attr("id", i);
+        save.attr("id", data[i]._id);
 
       }
 
@@ -36,16 +35,48 @@ $(document).ready(function () {
 
 
   });
-  ///to work from here
-  $(".btn btn-success save").on("click", function () {
-    console.log("Entered click eve for Save button");
+
+  //Handle the Save Article button
+  $(document).on("click", ".btn.btn-success", function () {
     var id = this.id;
-    //console.log("The id of the button clicked is" + id);
+    $.ajax({
+      url: "/api/Save/" + id,
+      type: 'PUT',
+    }).then(function (data) {
+      if (data) {
+        $("#" + id).parent().hide();
+      }
+      // window.location()
+    });
+  });
+
+  //Handle the Clear Articles Button
+  $("#Clear").on("click", function () {
+    $.ajax({
+      url: "/api/Clear/",
+      type: 'DELETE',
+    }).then(function (data) {
+      if (data) {
+        window.location = "/";
+      }
+    });
+  });
+
+
+
+  
+  // Handle the Save Articles list
+  $("#SavedArticles").on("click", function () {
+   // console.log("Entered Saved Articles function");
+    $.get("/api/saved", function (data) {
+      window.location = "/SavedArticles"
+      console.log(data);
+
+    });
   });
 });
-
-// Whenever someone clicks a p tag
-/*$(document).on("click", "p", function() {
+/* Whenever someone clicks a p tag
+$(document).on("click", "p", function() {
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -100,10 +131,4 @@ $(document).on("click", "#savenote", function() {
       console.log(data);
       // Empty the notes section
       $("#notes").empty();
-    });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
-});*/
-
+    });*/

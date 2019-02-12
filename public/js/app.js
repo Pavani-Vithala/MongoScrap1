@@ -71,21 +71,19 @@ $(document).ready(function () {
 
   // Handle the Save Articles list
   $("#Saved").on("click", function () {
-    // console.log("Entered Saved Articles function");
     $.ajax({
       url: "/api/SavedArticles/",
       type: 'GET',
     }).then(function (data) {
+      $("articlediv").remove();
       if (data) {
-
         console.log("Entered clear articles loop");
-        $(".articles").remove();
         console.log("Successfully removed articles div");
         for (var i = 0; i < data.length; i++) {
           // Display the apropos information on the page
           console.log("Displaying saved article" + i);
           var site = "https://www.nytimes.com"
-          var articlediv = $("<div>");
+          var articleSavediv = $("<div>");
           var Delete = $("<button>");
           var addNote = $("<buton>");
           Delete.addClass("btn btn-danger Delete");
@@ -96,17 +94,17 @@ $(document).ready(function () {
           addNote.text("Add Notes");
           Delete.css("margin", "20px");
           addNote.css("margin", "20px");
-          articlediv.attr("id", i);
+          articleSavediv.attr("id", i);
           $("#" + i).addClass("Savedarticles");
-          articlediv.css("background-color", "beige");
-          articlediv.css("margin", "10px");
-          articlediv.css("padding", "10px");
+          articleSavediv.css("background-color", "beige");
+          articleSavediv.css("margin", "10px");
+          articleSavediv.css("padding", "10px");
           // save.css("float","right");
-          $(".background-image").append(articlediv);
-          articlediv.html('<a href =' + site + data[i].link + '><h4>' + data[i].title + data[i].summary + '</h4></a>');
-          articlediv.append(Delete);
-          articlediv.append(addNote);
-          articlediv.css("color", "black");
+          $(".background-image").append(articleSavediv);
+          articleSavediv.html('<a href =' + site + data[i].link + '><h4>' + data[i].title + data[i].summary + '</h4></a>');
+          articleSavediv.append(Delete);
+          articleSavediv.append(addNote);
+          articleSavediv.css("color", "black");
           Delete.attr("id", data[i]._id);
           addNote.attr("id", data[i]._id);
 
@@ -138,25 +136,41 @@ $(document).ready(function () {
 
 
   //Route to handle Add Note button
-  $(document).on("click", ".btn.btn-primary", function () {
+  $(document).on("click", ".btn.btn-primary.Notes", function () {
     console.log("Entered add Note route:");
-    var id = this.data-id;
-    console.log("The id of the button to add note is" + id);
+    var id = this.id;
+    console.log("The id of the article to add note is" + id);
     $("#confirmBox").show();
-    /*window.location = "/AddNote/:id";
-    $.ajax({
-      url: "/api/Save/" + id,
-      type: 'PUT',
-    }).then(function (data) {
-      if (data) {
-        $("#" + id).parent().hide();
-      }
-      // window.location()
-    });*/
+    $("h2").text("The id of the article to add note is" + id);
+   /* $.ajax({
+      url: "/api/SavedNotes/" + id,
+      type: 'GET',
+    }).then(function (data) {*/
+     submitNotes(id) ;
+
+    });
+    
+    
+   
   });
-
-
+function submitNotes(id)
+{
+  var passId = id;
+  var clientTitle = "Note for article with id" + passId;
+  $(document).on("click", ".btn.btn-primary.Notes", function () {
+  var clientBody = $("#NoteText").text().trim();
+  console.log("The title of he note is "+ clientTitle);
+  console.log("The body of the note is " + clientBody );
+  Note:
+   {
+    title: clientTitle;
+    body : clientBody;
+    articleId: passId
+  };
+  console.log(Notes);
 });
+
+}
 /* Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
   // Empty the notes from the note section

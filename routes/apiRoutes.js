@@ -114,6 +114,29 @@ module.exports = function (app) {
 
     });
 
+// Route for getting all the saved Notes for an article
+/*app.get("/api/SavedNotes/:id", function (req, res) {
+    var Clientid = req.params.id;
+    // Grab every document in the Articles collection
+    db.Article.find({ _id: Clientid })
+        .then(function (dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            if()
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
+
+});*/
+
+//Route to handle posting of Notes for an article
+
+app.post("/api/SaveNotes",function(req,res){
+
+
+});
 
 
 //Route for handling the Delete specific articles 

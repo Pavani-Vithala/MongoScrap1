@@ -115,25 +115,36 @@ module.exports = function (app) {
     });
 
 // Route for getting all the saved Notes for an article
-/*app.get("/api/SavedNotes/:id", function (req, res) {
-    var Clientid = req.params.id;
+app.get("/api/SavedNotes/:id", function (req, res) {
+    var ClientId = req.params.id;
     // Grab every document in the Articles collection
-    db.Article.find({ _id: Clientid })
-        .then(function (dbArticle) {
-            // If we were able to successfully find Articles, send them back to the client
-            if()
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            // If an error occurred, send it to the client
-            res.json(err);
-        });
+    db.Note.find({ Article: ClientId })
+    // ..and populate all of the notes associated with it
+     .then(function(dbArticle) {
+      // If we were able to successfully find an Article with the given id, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
 
-});*/
+});
 
 //Route to handle posting of Notes for an article
 
-app.post("/api/SaveNotes",function(req,res){
+app.post("/Notes/:id",function(req,res){
+    var clientId = req.params.id;
+    db.Note.create(req.body)
+    .then(function(dbNote) {
+      // If we were able to successfully update a note, send it back to the client
+      res.json(dbNote);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+
 
 
 });
